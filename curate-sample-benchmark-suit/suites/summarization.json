@@ -1,0 +1,67 @@
+{
+  "suite_name": "summarization",
+  "description": "Benchmarks LLM summarization quality including factual accuracy, conciseness, and key information retention across varying source lengths.",
+  "version": "1.0.0",
+  "tasks": [
+    {
+      "id": "sum-001",
+      "prompt_template": "{instruction} Summarize the following in exactly one sentence: {source_text}",
+      "variables": { "instruction": "Provide a concise summary.", "source_text": "The Apollo 11 mission was the first manned mission to land on the Moon. It was launched on July 16, 1969, and carried astronauts Neil Armstrong, Buzz Aldrin, and Michael Collins. Armstrong and Aldrin walked on the lunar surface while Collins orbited above." },
+      "rubric": { "must_include": ["Apollo 11", "Moon", "1969"], "must_exclude": ["fictional_details"], "max_length_words": 30, "scoring": "all_key_facts:2pts, partial_facts:1pt, hallucination:-1pt, over_length:-0.5pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-002",
+      "prompt_template": "{instruction} Summarize the following in {target_words} words: {source_text}",
+      "variables": { "instruction": "Capture only the essential facts.", "target_words": "25", "source_text": "Marie Curie was a Polish-born physicist and chemist who conducted pioneering research on radioactivity. She was the first woman to win a Nobel Prize, the first person to win twice, and the only person to win in two different sciences. She won the Nobel Prize in Physics in 1903 with her husband Pierre and the Nobel Prize in Chemistry in 1911." },
+      "rubric": { "must_include": ["Marie Curie", "radioactivity", "Nobel", "two sciences"], "max_length_words": 30, "scoring": "all_key_facts:2pts, partial:1pt, hallucination:-1pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-003",
+      "prompt_template": "{instruction} Provide a bullet-point summary of the key arguments: {source_text}",
+      "variables": { "instruction": "Extract the main arguments as bullet points.", "source_text": "Climate change is driven by human activity according to 97% of climate scientists. Rising greenhouse gas emissions from burning fossil fuels trap heat in the atmosphere. This leads to rising sea levels, more extreme weather events, and disruption to ecosystems. Skeptics argue natural cycles play a larger role, but the data shows unprecedented warming rates since industrialization." },
+      "rubric": { "must_include": ["human activity", "greenhouse gas", "97%"], "bullet_format": true, "scoring": "all_arguments_captured:2pts, partial:1pt, wrong_format:-0.5pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-004",
+      "prompt_template": "{instruction} Summarize this technical article for a non-technical audience: {source_text}",
+      "variables": { "instruction": "Use simple language a teenager could understand.", "source_text": "Kubernetes is an open-source container orchestration platform that automates deployment, scaling, and management of containerized applications. It groups containers that make up an application into logical units called pods for easy management and discovery. Originally developed by Google, it is now maintained by the Cloud Native Computing Foundation." },
+      "rubric": { "must_include": ["Kubernetes", "containers", "automates"], "must_exclude": ["orchestration"], "jargon_free": true, "scoring": "accessible_and_accurate:2pts, accurate_but_jargony:1pt, inaccurate:0pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-005",
+      "prompt_template": "{instruction} Write an executive summary of: {source_text}",
+      "variables": { "instruction": "Focus on business impact and action items.", "source_text": "Q3 revenue increased 15% year-over-year to $4.2B, driven by strong performance in cloud services which grew 32%. However, hardware sales declined 8% due to supply chain disruptions. Operating margins improved to 22%. The company plans to invest $500M in AI infrastructure in Q4. Headcount grew by 2,000 employees, mostly in engineering. Customer churn remained stable at 3.2%." },
+      "rubric": { "must_include": ["15% revenue growth", "cloud 32%", "AI investment"], "tone": "executive_professional", "scoring": "key_metrics_and_actions:2pts, metrics_only:1pt, misses_key_points:0pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-006",
+      "prompt_template": "{instruction} Summarize this meeting transcript: {source_text}",
+      "variables": { "instruction": "List decisions made and action items with owners.", "source_text": "Alice: We need to decide on the launch date. Bob: I think October 15th works for engineering. Carol: Marketing needs at least two weeks notice, so October 15th is tight. Alice: Let's go with October 22nd to be safe. Bob: I'll update the roadmap. Carol: I'll prepare the press release by October 8th. Alice: Great, let's reconvene next Monday." },
+      "rubric": { "must_include": ["October 22nd", "Bob: roadmap", "Carol: press release by October 8th"], "format": "decisions_and_action_items", "scoring": "all_decisions_and_actions:2pts, partial:1pt, narrative_instead_of_structured:-0.5pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-007",
+      "prompt_template": "{instruction} Condense this paragraph into a title and one-sentence subtitle: {source_text}",
+      "variables": { "instruction": "Be creative but accurate.", "source_text": "Researchers at MIT have developed a new type of battery that can store twice as much energy as lithium-ion batteries while costing half as much to produce. The battery uses sodium and potassium ions instead of lithium, making it more environmentally friendly and less dependent on scarce materials. Commercial availability is expected within five years." },
+      "rubric": { "title_relevance": true, "subtitle_captures": ["double energy", "half cost", "sodium/potassium"], "scoring": "creative_and_accurate:2pts, accurate_but_dull:1pt, misleading:0pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-008",
+      "prompt_template": "{instruction} Summarize the following in {style} style: {source_text}",
+      "variables": { "instruction": "Maintain all factual accuracy.", "style": "parallels between past and present", "source_text": "The Black Death killed an estimated 30-60% of Europe's population in the 14th century. It disrupted labor markets, weakened feudal structures, and led to significant social and economic reforms. Similarly, COVID-19 disrupted global supply chains, accelerated remote work adoption, and prompted reevaluation of healthcare systems worldwide." },
+      "rubric": { "must_include": ["Black Death", "COVID-19", "disruption", "reform"], "style_adherence": true, "scoring": "accurate_and_styled:2pts, accurate_wrong_style:1pt, inaccurate:0pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-009",
+      "prompt_template": "{instruction} Create a TL;DR for: {source_text}",
+      "variables": { "instruction": "Keep it under 15 words.", "source_text": "The European Union has approved a landmark digital services act that imposes new obligations on large tech platforms to combat illegal content, protect minors, and ensure transparent advertising. The regulation applies to platforms with over 45 million monthly active users in the EU. Non-compliance can result in fines up to 6% of global revenue. The act will take effect in early 2024." },
+      "rubric": { "must_include": ["EU", "tech platforms", "digital services act"], "max_length_words": 15, "scoring": "under_limit_with_key_facts:2pts, over_limit_or_partial:1pt, wrong:0pt", "max_score": 2 }
+    },
+    {
+      "id": "sum-010",
+      "prompt_template": "{instruction} Compare and summarize the two perspectives: {source_text}",
+      "variables": { "instruction": "Present both sides neutrally.", "source_text": "Perspective A: Remote work increases productivity by eliminating commute times and reducing office distractions. Studies show a 13% productivity increase. Perspective B: Remote work harms collaboration and company culture. Innovation suffers without serendipitous hallway conversations, and junior employees miss mentorship opportunities." },
+      "rubric": { "must_include": ["productivity increase", "collaboration/culture concerns"], "neutrality": true, "scoring": "neutral_both_sides:2pts, biased_or_incomplete:1pt, one_sided:0pt", "max_score": 2 }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "suite_name": "reasoning-chain-of-thought",
+  "description": "Benchmarks LLM reasoning quality across arithmetic, logic, and multi-step deduction tasks using chain-of-thought prompting variations.",
+  "version": "1.0.0",
+  "tasks": [
+    {
+      "id": "reason-001",
+      "prompt_template": "{cot_instruction} A bat and ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?",
+      "variables": { "cot_instruction": "Think step by step." },
+      "rubric": { "ideal_answer": "0.05", "scoring": "exact_match: 2pts, numeric_within(0.01): 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-002",
+      "prompt_template": "{cot_instruction} If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?",
+      "variables": { "cot_instruction": "Let's work through this carefully." },
+      "rubric": { "ideal_answer": "5 minutes", "scoring": "contains('5 min'): 2pts, contains(correct_unit): 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-003",
+      "prompt_template": "{cot_instruction} A farmer has 17 sheep. All but 9 die. How many sheep are left?",
+      "variables": { "cot_instruction": "Reason step by step." },
+      "rubric": { "ideal_answer": "9", "scoring": "exact_integer(9): 2pts, mentions_9: 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-004",
+      "prompt_template": "{cot_instruction} If you have a 3-gallon jug and a 5-gallon jug, how can you measure exactly 4 gallons of water?",
+      "variables": { "cot_instruction": "Think aloud and show your reasoning." },
+      "rubric": { "ideal_answer": "Fill 5-gallon, pour into 3-gallon leaving 2, empty 3, pour 2 into 3, fill 5, pour 1 into 3 leaving 4", "scoring": "valid_sequence_to_4: 2pts, partial_plan: 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-005",
+      "prompt_template": "{cot_instruction} In a lake, there is a patch of lily pads that doubles in size every day. If it takes 48 days for the patch to cover the entire lake, how long would it take to cover half the lake?",
+      "variables": { "cot_instruction": "Think carefully step by step." },
+      "rubric": { "ideal_answer": "47 days", "scoring": "exact_integer(47): 2pts, close(46-48): 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-006",
+      "prompt_template": "{cot_instruction} Three boxes are labeled 'Apples', 'Oranges', and 'Mixed'. All labels are wrong. You pick one fruit from the 'Mixed' box and it's an apple. What are the correct labels?",
+      "variables": { "cot_instruction": "Work through the logic step by step." },
+      "rubric": { "ideal_answer": "Mixed=Apples, Apples=Oranges, Oranges=Mixed", "scoring": "all_three_correct: 2pts, two_correct: 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-007",
+      "prompt_template": "{cot_instruction} A man pushes his car to a hotel and loses his fortune. What happened?",
+      "variables": { "cot_instruction": "Use lateral thinking to reason through this." },
+      "rubric": { "ideal_answer": "Playing Monopoly", "scoring": "identifies_monopoly: 2pts, plausible_alternative: 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-008",
+      "prompt_template": "{cot_instruction} If all Bloops are Razzies and all Razzies are Lazzies, are all Bloops definitely Lazzies?",
+      "variables": { "cot_instruction": "Apply formal logic step by step." },
+      "rubric": { "ideal_answer": "Yes, by transitivity of the subset relation", "scoring": "correct_yes_with_explanation: 2pts, correct_yes_no_explanation: 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-009",
+      "prompt_template": "{cot_instruction} You have 12 identical-looking coins. One is counterfeit and slightly heavier. Using a balance scale, what is the minimum number of weighings to find the counterfeit coin?",
+      "variables": { "cot_instruction": "Devise a strategy and reason through it." },
+      "rubric": { "ideal_answer": "3 weighings", "scoring": "exact_integer(3): 2pts, valid_strategy_wrong_count: 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-010",
+      "prompt_template": "{cot_instruction} Two trains are 100 miles apart, traveling toward each other at 40 mph and 60 mph. A bird flies from one train to the other at 80 mph, turning around instantly. How far does the bird fly before the trains meet?",
+      "variables": { "cot_instruction": "Break this down step by step." },
+      "rubric": { "ideal_answer": "80 miles", "scoring": "exact_numeric(80): 2pts, correct_approach_arithmetic_error: 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-011",
+      "prompt_template": "{cot_instruction} A clock shows 3:15. What is the angle between the hour and minute hands?",
+      "variables": { "cot_instruction": "Calculate precisely, showing your work." },
+      "rubric": { "ideal_answer": "7.5 degrees", "scoring": "exact_numeric(7.5): 2pts, within(1_degree): 1pt, wrong: 0pt", "max_score": 2 }
+    },
+    {
+      "id": "reason-012",
+      "prompt_template": "{cot_instruction} You need to cross a river with a wolf, a goat, and a cabbage. The boat holds you plus one item. The wolf eats the goat if left alone; the goat eats the cabbage. How many trips minimum?",
+      "variables": { "cot_instruction": "Plan the sequence of crossings step by step." },
+      "rubric": { "ideal_answer": "7 trips with valid sequence", "scoring": "valid_7_trip_solution: 2pts, valid_solution_more_trips: 1pt, invalid: 0pt", "max_score": 2 }
+    }
+  ]
+}
